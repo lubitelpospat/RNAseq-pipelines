@@ -19,12 +19,12 @@ fi
 
 udocker create --name=$CONTAINERNAME "ubuntu:18.04"
 udocker run $CONTAINERNAME sh -c "echo $SRA >> acc.data"
-udocker run --volume=$PWD/scripts:/root/scripts --volume=$DATADIR:/root/data $CONTAINERNAME sh /root/scripts/setup.sh
+udocker run --cpuset-cpus=1-4 --volume=$PWD/scripts:/root/scripts --volume=$DATADIR:/root/data $CONTAINERNAME sh /root/scripts/setup.sh
 #prefetch_version=$(udocker run $CONTAINERNAME prefetch --version)
 #r_version=$(udocker run $CONTAINERNAME R --version)
 
 #echo $prefetch_version
 #echo $r_version
 
-udocker run --volume=$DATADIR:/root/data --volume=$PWD/genome:/root/genome --volume=$SCRIPTDIR:/root/scripts $CONTAINERNAME sh /root/scripts/process.sh
+udocker run --cpuset-cpus=1-4 --volume=$DATADIR:/root/data --volume=$PWD/genome:/root/genome --volume=$SCRIPTDIR:/root/scripts $CONTAINERNAME sh /root/scripts/process.sh
 udocker rm $CONTAINERNAME
